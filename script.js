@@ -9,24 +9,24 @@ const bgMusic = document.getElementById("bgMusic");
 const gameArea = document.getElementById("gameArea");
 const scoreDisplay = document.getElementById("score");
 const gameNextBtn = document.getElementById("gameNextBtn");
+
 let score = 0;
 let gameInterval;
-
 let current = 0;
 
 /* SONGS ARRAY */
 const songs = [
-  "song1.mp3",   // Slide 1
-  "song2.mp3",   // Slide 2
-  "game.mp3",    // Game slide
-  "song3.mp3",   // Slide 3
-  "song4.mp3",   // Slide 4
-  "song5.mp3",   // Shiv slide
-  "song6.mp3"    // Final slide
+  "song1.mp3",
+  "song2.mp3",
+  "game.mp3",
+  "song3.mp3",
+  "song4.mp3",
+  "song5.mp3",
+  "song6.mp3"
 ];
 
+/* ================= MUSIC ================= */
 
-/* PLAY MUSIC */
 function fadeOutMusic(callback) {
   let fadeOut = setInterval(() => {
     if (bgMusic.volume > 0.05) {
@@ -42,7 +42,7 @@ function fadeOutMusic(callback) {
 
 function fadeInMusic() {
   bgMusic.volume = 0;
-  bgMusic.play();
+  bgMusic.play().catch(() => {});
   let fadeIn = setInterval(() => {
     if (bgMusic.volume < 0.95) {
       bgMusic.volume += 0.05;
@@ -61,7 +61,8 @@ function playMusic(index) {
   });
 }
 
-/* TYPEWRITER */
+/* ================= TYPEWRITER ================= */
+
 function typeWriter(element, speed = 70, callback = null) {
   const text = element.getAttribute("data-text");
   element.textContent = "";
@@ -80,7 +81,8 @@ function typeWriter(element, speed = 70, callback = null) {
   typing();
 }
 
-/* STOP VIDEOS */
+/* ================= STOP VIDEOS ================= */
+
 function stopVideos() {
   document.querySelectorAll("video").forEach(v => {
     v.pause();
@@ -88,29 +90,15 @@ function stopVideos() {
   });
 }
 
-/* SHOW SLIDE */
-function showSlide(index) {
-  screens.forEach(screen => screen.classList.remove("active"));
-  if (screens[index].classList.contains("slideGame")) {
-  startGame();
-}
-  // Clear glitters whenever slide changes
-if (glitterContainer) {
-  glitterContainer.innerHTML = "";
-}
-if (gameNextBtn) {
-  gameNextBtn.addEventListener("click", () => {
-    current++;
-    showSlide(current);
-  });
-}
+/* ================= GAME ================= */
 
-// Game Function
 function startGame() {
 
   score = 0;
   scoreDisplay.textContent = score;
   gameNextBtn.style.display = "none";
+
+  clearInterval(gameInterval);
 
   gameInterval = setInterval(() => {
 
@@ -123,7 +111,7 @@ function startGame() {
     gameArea.appendChild(heart);
 
     let fall = setInterval(() => {
-      heart.style.top = heart.offsetTop + 4 + "px";
+      heart.style.top = heart.offsetTop + 3 + "px";
 
       if (heart.offsetTop > gameArea.offsetHeight) {
         heart.remove();
@@ -131,31 +119,62 @@ function startGame() {
       }
     }, 20);
 
-    heart.addEventListener("mouseover", () => {
+    function catchHeart() {
       score++;
       scoreDisplay.textContent = score;
       heart.remove();
       clearInterval(fall);
-    });
+    }
+
+    heart.addEventListener("mouseover", catchHeart);
+    heart.addEventListener("touchstart", catchHeart);
 
   }, 700);
 
-  // Stop game after 7 seconds
   setTimeout(() => {
     clearInterval(gameInterval);
     gameNextBtn.style.display = "inline-block";
-  }, 7000);
+  }, 20000);
 }
 
-// Only create glitters for Shiv slide (index 4)
-if (index === 5) {
-  createGlitters();
+/* ================= GLITTER ================= */
+
+function createGlitters() {
+  if (!glitterContainer) return;
+
+  glitterContainer.innerHTML = "";
+
+  for (let i = 0; i < 35; i++) {
+    const sparkle = document.createElement("div");
+    sparkle.classList.add("glitter");
+
+    sparkle.style.left = Math.random() * 100 + "%";
+    sparkle.style.top = Math.random() * 100 + "%";
+    sparkle.style.animationDelay = Math.random() * 4 + "s";
+
+    glitterContainer.appendChild(sparkle);
+  }
 }
 
+/* ================= SHOW SLIDE ================= */
+
+function showSlide(index) {
+
+  screens.forEach(screen => screen.classList.remove("active"));
   screens[index].classList.add("active");
 
   stopVideos();
   playMusic(index);
+
+  if (glitterContainer) glitterContainer.innerHTML = "";
+
+  if (index === 5) {
+    createGlitters();
+  }
+
+  if (screens[index].classList.contains("slideGame")) {
+    startGame();
+  }
 
   const heading = screens[index].querySelector("h1");
   const paragraph = screens[index].querySelector("p");
@@ -173,19 +192,29 @@ if (index === 5) {
   }
 }
 
-/* INITIAL LOAD */
+/* ================= INITIAL LOAD ================= */
+
 document.addEventListener("DOMContentLoaded", () => {
   const firstHeading = screens[0].querySelector("h1");
   typeWriter(firstHeading, 90);
 });
 
-/* BEGIN BUTTON */
+/* ================= BEGIN BUTTON ================= */
+
 beginBtn.addEventListener("click", () => {
 
-  // Play song for slide 1
-  playMusic(0);
+  // 🔓 Unlock audio for mobile Safari
+  bgMusic.src = songs[0];
+  bgMusic.volume = 0;
+  bgMusic.play().then(() => {
+    bgMusic.pause();
+    bgMusic.currentTime = 0;
+    playMusic(0);
+  }).catch(() => {
+    playMusic(0);
+  });
 
-  // Create explosion hearts
+  // 💖 Explosion Hearts
   for (let i = 0; i < 80; i++) {
     const heart = document.createElement("div");
     heart.classList.add("explodeHeart");
@@ -213,13 +242,13 @@ beginBtn.addEventListener("click", () => {
 
 });
 
-/* CONTINUE BUTTON */
+/* ================= NAVIGATION ================= */
+
 enterBtn.addEventListener("click", () => {
   current++;
   showSlide(current);
 });
 
-/* NEXT BUTTONS */
 nextBtns.forEach(btn => {
   btn.addEventListener("click", () => {
     current++;
@@ -227,20 +256,9 @@ nextBtns.forEach(btn => {
   });
 });
 
-function createGlitters() {
-  if (!glitterContainer) return;
-
-  // Clear old glitters first
-  glitterContainer.innerHTML = "";
-
-  for (let i = 0; i < 35; i++) {
-    const sparkle = document.createElement("div");
-    sparkle.classList.add("glitter");
-
-    sparkle.style.left = Math.random() * 100 + "%";
-    sparkle.style.top = Math.random() * 100 + "%";
-    sparkle.style.animationDelay = Math.random() * 4 + "s";
-
-    glitterContainer.appendChild(sparkle);
-  }
+if (gameNextBtn) {
+  gameNextBtn.addEventListener("click", () => {
+    current++;
+    showSlide(current);
+  });
 }
