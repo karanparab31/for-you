@@ -1,0 +1,478 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Georgia, serif;
+  color: white;
+  overflow: hidden;
+}
+
+/* SCREEN */
+.screen {
+  display: none;
+  height: 100vh;
+  padding: 40px 20px;
+  box-sizing: border-box;
+
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.screen.active {
+  display: flex;
+}
+
+/* MEDIA */
+.media {
+  width: 320px;
+  max-width: 85%;
+  border-radius: 20px;
+  margin-bottom: 25px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+  position: relative;
+  z-index: 2;
+}
+
+/* TEXT */
+h1 {
+  font-size: 36px;
+  margin: 10px 0;
+  min-height: 42px;
+  z-index: 2;
+}
+
+p {
+  font-size: 16px;
+  opacity: 0.9;
+  max-width: 500px;
+  margin-bottom: 20px;
+  line-height: 1.6;
+  z-index: 2;
+}
+
+/* BUTTON */
+button {
+  padding: 12px 32px;
+  font-size: 14px;
+  border-radius: 30px;
+  border: none;
+  cursor: pointer;
+  background: rgba(255,255,255,0.15);
+  color: white;
+  transition: all 0.3s ease;
+  z-index: 2;
+}
+
+button:hover {
+  background: rgba(255,255,255,0.25);
+  transform: translateY(-3px);
+}
+
+/* SLIDE BACKGROUNDS */
+
+.slide1 {
+  background: linear-gradient(-45deg, #1f2937, #334155, #475569, #1f2937);
+  background-size: 400% 400%;
+  animation: gradientMove 18s ease infinite;
+}
+
+.slide2 {
+  background: linear-gradient(-45deg, #3a2e39, #7d5a6c, #c38eb4, #3a2e39);
+  background-size: 400% 400%;
+  animation: gradientMove 20s ease infinite;
+}
+
+.slide3 {
+  background: linear-gradient(-45deg, #1f3b4d, #3a5a6b, #6c9a8b, #1f3b4d);
+  background-size: 400% 400%;
+  animation: gradientMove 22s ease infinite;
+}
+
+.slide4 {
+  background: linear-gradient(-45deg, #3b2f2f, #7f5539, #b08968, #3b2f2f);
+  background-size: 400% 400%;
+  animation: gradientMove 24s ease infinite;
+}
+
+.slide5 {
+  background: linear-gradient(-45deg, #0f2027, #203a43, #2c5364, #0f2027);
+  background-size: 400% 400%;
+  animation: gradientMove 26s ease infinite;
+}
+
+/* SHIVA AURA */
+.slide5::before {
+  content: "";
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0.15) 30%, transparent 70%);
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: auraPulse 6s ease-in-out infinite;
+  z-index: 1;
+  filter: blur(30px);
+}
+
+/* SLIDE 6 */
+.slide6 {
+  background: linear-gradient(-45deg, #2b2d42, #4a4e69, #9a8c98, #2b2d42);
+  background-size: 400% 400%;
+  animation: gradientMove 28s ease infinite;
+}
+
+/* SUBTLE FLOATING HEARTS (Slide 2 & 3) */
+
+.slide2 .heart,
+.slide3 .heart {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  background: rgba(255, 160, 180, 0.25);
+  transform: rotate(-45deg);
+  animation: floatHeart 12s linear infinite;
+  border-radius: 2px;
+}
+
+/* HEART CONTAINER */
+.hearts {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* HEART CONTAINER */
+.hearts {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1;
+}
+
+/* HEART SHAPE */
+.heart {
+  position: absolute;
+  bottom: -20px;   /* always start from bottom */
+  width: 14px;
+  height: 14px;
+  background: rgba(255, 150, 170, 0.35);
+  transform: rotate(-45deg);
+  opacity: 0;
+}
+
+/* circles for heart */
+.heart::before,
+.heart::after {
+  content: "";
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  background: inherit;
+  border-radius: 50%;
+}
+
+.heart::before {
+  top: -7px;
+  left: 0;
+}
+
+.heart::after {
+  left: 7px;
+  top: 0;
+}
+
+/* ONLY animate when slide is active */
+.screen.active .heart {
+  animation: floatHeart linear infinite;
+}
+
+/* Random positions Slide 2 */
+.slide2 .heart:nth-child(1) { left: 5%;  animation-duration: 14s; animation-delay: 0s; }
+.slide2 .heart:nth-child(2) { left: 18%; animation-duration: 18s; animation-delay: 2s; }
+.slide2 .heart:nth-child(3) { left: 30%; animation-duration: 16s; animation-delay: 4s; }
+.slide2 .heart:nth-child(4) { left: 45%; animation-duration: 20s; animation-delay: 6s; }
+.slide2 .heart:nth-child(5) { left: 60%; animation-duration: 17s; animation-delay: 1s; }
+.slide2 .heart:nth-child(6) { left: 72%; animation-duration: 22s; animation-delay: 3s; }
+.slide2 .heart:nth-child(7) { left: 85%; animation-duration: 19s; animation-delay: 5s; }
+.slide2 .heart:nth-child(8) { left: 95%; animation-duration: 15s; animation-delay: 7s; }
+
+/* Random positions Slide 3 */
+.slide3 .heart:nth-child(1) { left: 8%;  animation-duration: 18s; animation-delay: 1s; }
+.slide3 .heart:nth-child(2) { left: 20%; animation-duration: 22s; animation-delay: 3s; }
+.slide3 .heart:nth-child(3) { left: 35%; animation-duration: 16s; animation-delay: 5s; }
+.slide3 .heart:nth-child(4) { left: 50%; animation-duration: 20s; animation-delay: 7s; }
+.slide3 .heart:nth-child(5) { left: 65%; animation-duration: 17s; animation-delay: 2s; }
+.slide3 .heart:nth-child(6) { left: 78%; animation-duration: 21s; animation-delay: 4s; }
+.slide3 .heart:nth-child(7) { left: 88%; animation-duration: 19s; animation-delay: 6s; }
+.slide3 .heart:nth-child(8) { left: 95%; animation-duration: 23s; animation-delay: 0s; }
+
+/* FLOATING ANIMATION */
+@keyframes floatHeart {
+  0% {
+    bottom: -20px;
+    opacity: 0.8;
+  }
+  100% {
+    bottom: 110%;
+    opacity: 0;
+  }
+}
+
+/* PULSE + SOFT GLOW */
+.pulseBtn {
+  animation: pulseGlow 2.5s ease-in-out infinite;
+}
+
+@keyframes pulseGlow {
+  0% {
+    box-shadow: 0 0 0px rgba(255,255,255,0.4);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(255,255,255,0.7);
+    transform: scale(1.05);
+  }
+  100% {
+    box-shadow: 0 0 0px rgba(255,255,255,0.4);
+    transform: scale(1);
+  }
+}
+
+/* HEART EXPLOSION CONTAINER */
+.heartExplosion {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1;
+}
+
+/* EXPLOSION HEART */
+.explodeHeart {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  background: rgba(255, 120, 150, 0.6);
+  transform: rotate(-45deg);
+  animation: explodeFloat 6s linear forwards;
+}
+
+.explodeHeart::before,
+.explodeHeart::after {
+  content: "";
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  background: inherit;
+  border-radius: 50%;
+}
+
+.explodeHeart::before {
+  top: -8px;
+  left: 0;
+}
+
+.explodeHeart::after {
+  left: 8px;
+  top: 0;
+}
+
+/* Explosion Animation */
+@keyframes explodeFloat {
+  0% {
+    transform: translateY(0) rotate(-45deg) scale(0.5);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-120vh) rotate(-45deg) scale(1.2);
+    opacity: 0;
+  }
+}
+/* HEART EXPLOSION CONTAINER */
+.heartExplosion {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1;
+}
+
+/* EXPLOSION HEART */
+/* BIG GLOWING EXPLOSION HEART */
+.explodeHeart {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  background: rgba(255, 120, 150, 0.9);
+  transform: rotate(-45deg);
+  animation: explodeFloat 6s linear forwards;
+  box-shadow: 
+    0 0 10px rgba(255, 120, 150, 0.8),
+    0 0 25px rgba(255, 120, 150, 0.6),
+    0 0 40px rgba(255, 120, 150, 0.4);
+}
+
+/* Rounded lobes */
+.explodeHeart::before,
+.explodeHeart::after {
+  content: "";
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  background: inherit;
+  border-radius: 50%;
+}
+
+.explodeHeart::before {
+  top: -11px;
+  left: 0;
+}
+
+.explodeHeart::after {
+  left: 11px;
+  top: 0;
+}
+
+.explodeHeart::before,
+.explodeHeart::after {
+  content: "";
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  background: inherit;
+  border-radius: 50%;
+}
+
+.explodeHeart::before {
+  top: -8px;
+  left: 0;
+}
+
+.explodeHeart::after {
+  left: 8px;
+  top: 0;
+}
+
+/* Explosion Animation */
+@keyframes explodeFloat {
+  0% {
+    transform: translateY(0) rotate(-45deg) scale(0.5);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(-60vh) rotate(-45deg) scale(1.1);
+    opacity: 0.9;
+  }
+  100% {
+    transform: translateY(-120vh) rotate(-45deg) scale(1.4);
+    opacity: 0;
+  }
+}
+/* GLITTER CONTAINER */
+.glitters {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1;
+}
+
+/* SINGLE GLITTER */
+.glitter {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: white;
+  border-radius: 50%;
+  opacity: 0;
+  animation: sparkle 4s ease-in-out infinite;
+  box-shadow: 0 0 8px white;
+}
+
+/* Sparkle Animation */
+@keyframes sparkle {
+  0% { opacity: 0; transform: scale(0.5); }
+  50% { opacity: 1; transform: scale(1.3); }
+  100% { opacity: 0; transform: scale(0.5); }
+}
+/* GAME SLIDE */
+.slideGame {
+  background: linear-gradient(-45deg, #2b2d42, #4a4e69, #6c757d, #2b2d42);
+  background-size: 400% 400%;
+  animation: gradientMove 20s ease infinite;
+  position: relative;
+}
+
+/* Game Area */
+.gameArea {
+  position: relative;
+  width: 80%;
+  height: 50vh;
+  border: 2px dashed rgba(255,255,255,0.3);
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+
+/* Score */
+.scoreBoard {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 18px;
+}
+
+/* Falling Hearts */
+.fallHeart {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  background: rgba(255, 120, 150, 0.9);
+  transform: rotate(-45deg);
+  cursor: pointer;
+}
+
+.fallHeart::before,
+.fallHeart::after {
+  content: "";
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  background: inherit;
+  border-radius: 50%;
+}
+
+.fallHeart::before {
+  top: -12px;
+  left: 0;
+}
+
+.fallHeart::after {
+  left: 12px;
+  top: 0;
+}
+
+

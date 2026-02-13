@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>For You</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- Background Music (only one for whole website) -->
+  <audio id="bgMusic"></audio>
+
+  <!-- Slide 1 -->
+ <div class="screen slide1 active">
+
+  <div id="heartExplosion" class="heartExplosion"></div>
+
+  <video controls class="media">
+    <source src="intro.mp4" type="video/mp4">
+  </video>
+
+  <h1 data-text="Hey"></h1>
+
+  <p id="introLine"
+     data-text="I made something small for you."
+     style="opacity:0;"></p>
+
+  <button id="beginBtn" class="pulseBtn">Begin</button>
+  <button id="enterBtn"
+          class="pulseBtn"
+          style="display:none;">Continue</button>
+</div>
+
+  <!-- Slide 2 -->
+  <div class="screen slide2">
+  
+  <div class="hearts">
+    <div class="heart"></div>
+    <div class="heart"></div>
+    <div class="heart"></div>
+    <div class="heart"></div>
+    <div class="heart"></div>
+    <div class="heart"></div>
+    <div class="heart"></div>
+    <div class="heart"></div>
+  </div>
+
+  <img src="photo2.jpg" class="media">
+
+  <h1 data-text="Us"></h1>
+  <p data-text="Not perfect. Not dramatic. Just real."></p>
+
+  <button class="nextBtn">Next</button>
+</div>
+
+<!-- Slide 2.5 - Catch Hearts Game -->
+<div class="screen slideGame">
+
+  <div class="gameArea" id="gameArea">
+    <div class="scoreBoard">Score: <span id="score">0</span></div>
+  </div>
+
+ <h1 data-text="Catch the hearts &#10084;"></h1>
+  <p data-text="Move your mouse and click the hearts to catch as many as you can."></p>
+
+  <button id="gameNextBtn" style="display:none;">Next</button>
+
+</div>
+
+  <!-- Slide 3 -->  
+  <div class="screen slide3">
+  
+  <div class="hearts">
+    <div class="heart"></div>
+    <div class="heart"></div>
+    <div class="heart"></div>
+    <div class="heart"></div>
+    <div class="heart"></div>
+    <div class="heart"></div>
+    <div class="heart"></div>
+    <div class="heart"></div>
+  </div>
+
+  <img src="photo3.jpg" class="media">
+
+  <h1 data-text="Even Now"></h1>
+  <p data-text="Even in silence. Even in distance. Even in phases."></p>
+
+  <button class="nextBtn">Next</button>
+</div>
+
+  <!-- Slide 4 -->
+<div class="screen slide4">
+  <video controls class="media">
+    <source src="slide4.mp4" type="video/mp4">
+  </video>
+
+  <h1 data-text="Still"></h1>
+  <p data-text="Some things don&apos;t need constant words."></p>
+
+  <button class="nextBtn">Next</button>
+</div>
+
+
+  <!-- Slide 5 -->
+ <div class="glitters"></div>
+<div class="screen slide5">
+
+  <div class="glitters"></div>
+
+  <img src="shivshakti.jpg" class="media">
+
+  <h1 data-text="On This Mahashivratri"></h1>
+  <p data-text="Strength without noise. Devotion without fear."></p>
+
+  <button class="nextBtn">Next</button>
+</div>
+
+
+  <!-- Slide 6 -->
+  <div class="screen slide6">
+    <video controls class="media">
+      <source src="last.mp4" type="video/mp4">
+    </video>
+
+    <h1 data-text="I&apos;m Here"></h1>
+    <p data-text="Whatever the phase is, I just want us to move through it together."></p>
+  </div>
+
+  <script src="script.js"></script>
+
+</body>
+</html>
