@@ -1,4 +1,3 @@
-const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 const glitterContainer = document.querySelector(".glitters");
 const heartExplosion = document.getElementById("heartExplosion");
 const screens = document.querySelectorAll(".screen");
@@ -6,7 +5,6 @@ const beginBtn = document.getElementById("beginBtn");
 const enterBtn = document.getElementById("enterBtn");
 const nextBtns = document.querySelectorAll(".nextBtn");
 const introLine = document.getElementById("introLine");
-const bgMusic = document.getElementById("bgMusic");
 const gameArea = document.getElementById("gameArea");
 const scoreDisplay = document.getElementById("score");
 const gameNextBtn = document.getElementById("gameNextBtn");
@@ -15,7 +13,8 @@ let score = 0;
 let gameInterval;
 let current = 0;
 
-// Create separate audio objects
+/* ================= AUDIO TRACKS (MOBILE SAFE) ================= */
+
 const audioTracks = [
   new Audio("song1.mp3"),
   new Audio("song2.mp3"),
@@ -28,60 +27,14 @@ const audioTracks = [
 
 let currentTrack = null;
 
-/* ================= MUSIC ================= */
-
-function fadeOutMusic(callback) {
-  let fadeOut = setInterval(() => {
-    if (bgMusic.volume > 0.05) {
-      bgMusic.volume -= 0.05;
-    } else {
-      clearInterval(fadeOut);
-      bgMusic.pause();
-      bgMusic.volume = 1;
-      if (callback) callback();
-    }
-  }, 100);
-}
-
-function fadeInMusic() {
-  bgMusic.volume = 0;
-  bgMusic.play().catch(() => {});
-  let fadeIn = setInterval(() => {
-    if (bgMusic.volume < 0.95) {
-      bgMusic.volume += 0.05;
-    } else {
-      clearInterval(fadeIn);
-      bgMusic.volume = 1;
-    }
-  }, 100);
-}
-
 function playMusic(index) {
 
-  if (isMobile) {
-    // Simple switching for mobile
-    bgMusic.pause();
-    bgMusic.src = songs[index];
-    bgMusic.currentTime = 0;
-    bgMusic.play().catch(() => {});
-  } else {
-    // Keep fade for desktop
-    fadeOutMusic(() => {
-      bgMusic.src = songs[index];
-      bgMusic.currentTime = 0;
-      fadeInMusic();
-    });
-  }
-}
-function playMusic(index) {
-
-  // Stop previous track
+  // Stop previous
   if (currentTrack !== null) {
     audioTracks[currentTrack].pause();
     audioTracks[currentTrack].currentTime = 0;
   }
 
-  // Play new track
   currentTrack = index;
   audioTracks[index].play().catch(() => {});
 }
@@ -228,17 +181,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
 beginBtn.addEventListener("click", () => {
 
-// Unlock all tracks on first gesture (important for iOS)
-audioTracks.forEach(track => {
-  track.volume = 1;
-  track.play().then(() => {
-    track.pause();
-    track.currentTime = 0;
+  // 🔓 Unlock only first track (important for iOS)
+  audioTracks[0].play().then(() => {
+    currentTrack = 0;
   }).catch(() => {});
-});
 
-// Now actually play Slide 1 music
-playMusic(0);
   // 💖 Explosion Hearts
   for (let i = 0; i < 80; i++) {
     const heart = document.createElement("div");
