@@ -15,16 +15,18 @@ let score = 0;
 let gameInterval;
 let current = 0;
 
-/* SONGS ARRAY */
-const songs = [
-  "song1.mp3",
-  "song2.mp3",
-  "game.mp3",
-  "song3.mp3",
-  "song4.mp3",
-  "song5.mp3",
-  "song6.mp3"
+// Create separate audio objects
+const audioTracks = [
+  new Audio("song1.mp3"),
+  new Audio("song2.mp3"),
+  new Audio("game.mp3"),
+  new Audio("song3.mp3"),
+  new Audio("song4.mp3"),
+  new Audio("song5.mp3"),
+  new Audio("song6.mp3")
 ];
+
+let currentTrack = null;
 
 /* ================= MUSIC ================= */
 
@@ -70,6 +72,18 @@ function playMusic(index) {
       fadeInMusic();
     });
   }
+}
+function playMusic(index) {
+
+  // Stop previous track
+  if (currentTrack !== null) {
+    audioTracks[currentTrack].pause();
+    audioTracks[currentTrack].currentTime = 0;
+  }
+
+  // Play new track
+  currentTrack = index;
+  audioTracks[index].play().catch(() => {});
 }
 
 /* ================= TYPEWRITER ================= */
@@ -214,11 +228,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
 beginBtn.addEventListener("click", () => {
 
-  // 🔓 Unlock audio for mobile Safari
- bgMusic.src = songs[0];
-bgMusic.currentTime = 0;
-bgMusic.play().catch(() => {});
+// Unlock all tracks on first gesture (important for iOS)
+audioTracks.forEach(track => {
+  track.volume = 1;
+  track.play().then(() => {
+    track.pause();
+    track.currentTime = 0;
+  }).catch(() => {});
+});
 
+// Now actually play Slide 1 music
+playMusic(0);
   // 💖 Explosion Hearts
   for (let i = 0; i < 80; i++) {
     const heart = document.createElement("div");
