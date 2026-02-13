@@ -1,3 +1,4 @@
+const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 const glitterContainer = document.querySelector(".glitters");
 const heartExplosion = document.getElementById("heartExplosion");
 const screens = document.querySelectorAll(".screen");
@@ -54,11 +55,21 @@ function fadeInMusic() {
 }
 
 function playMusic(index) {
-  fadeOutMusic(() => {
+
+  if (isMobile) {
+    // Simple switching for mobile
+    bgMusic.pause();
     bgMusic.src = songs[index];
     bgMusic.currentTime = 0;
-    fadeInMusic();
-  });
+    bgMusic.play().catch(() => {});
+  } else {
+    // Keep fade for desktop
+    fadeOutMusic(() => {
+      bgMusic.src = songs[index];
+      bgMusic.currentTime = 0;
+      fadeInMusic();
+    });
+  }
 }
 
 /* ================= TYPEWRITER ================= */
@@ -204,15 +215,9 @@ document.addEventListener("DOMContentLoaded", () => {
 beginBtn.addEventListener("click", () => {
 
   // 🔓 Unlock audio for mobile Safari
-  bgMusic.src = songs[0];
-  bgMusic.volume = 0;
-  bgMusic.play().then(() => {
-    bgMusic.pause();
-    bgMusic.currentTime = 0;
-    playMusic(0);
-  }).catch(() => {
-    playMusic(0);
-  });
+ bgMusic.src = songs[0];
+bgMusic.currentTime = 0;
+bgMusic.play().catch(() => {});
 
   // 💖 Explosion Hearts
   for (let i = 0; i < 80; i++) {
