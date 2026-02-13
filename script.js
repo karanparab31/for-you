@@ -203,11 +203,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
 beginBtn.addEventListener("click", () => {
 
-  // Play first song directly (required for mobile Safari)
+  // 🔓 Unlock audio for mobile Safari
   bgMusic.src = songs[0];
-  bgMusic.currentTime = 0;
-  bgMusic.volume = 1;
-  bgMusic.play().catch(() => {});
+  bgMusic.volume = 0;
+  bgMusic.play().then(() => {
+    bgMusic.pause();
+    bgMusic.currentTime = 0;
+    playMusic(0);
+  }).catch(() => {
+    playMusic(0);
+  });
 
   // 💖 Explosion Hearts
   for (let i = 0; i < 80; i++) {
