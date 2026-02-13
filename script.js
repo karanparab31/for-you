@@ -15,30 +15,31 @@ let current = 0;
 
 /* ================= AUDIO TRACKS (MOBILE SAFE) ================= */
 
-const audioTracks = [
-  new Audio("song1.mp3"),
-  new Audio("song2.mp3"),
-  new Audio("game.mp3"),
-  new Audio("song3.mp3"),
-  new Audio("song4.mp3"),
-  new Audio("song5.mp3"),
-  new Audio("song6.mp3")
-];
-
-let currentTrack = null;
+const mainAudio = new Audio();
+mainAudio.loop = true;
 
 function playMusic(index) {
 
-  // Stop ALL tracks first
-  audioTracks.forEach(track => {
-    track.pause();
-    track.currentTime = 0;
-  });
+  const files = [
+    "song1.mp3",
+    "song2.mp3",
+    "game.mp3",
+    "song3.mp3",
+    "song4.mp3",
+    "song5.mp3",
+    "song6.mp3"
+  ];
 
-  currentTrack = index;
-  audioTracks[index].play().catch(() => {});
+  // Stop current
+  mainAudio.pause();
+  mainAudio.currentTime = 0;
+
+  // Change source
+  mainAudio.src = files[index];
+
+  // Play
+  mainAudio.play().catch(() => {});
 }
-
 /* ================= TYPEWRITER ================= */
 
 function typeWriter(element, speed = 70, callback = null) {
