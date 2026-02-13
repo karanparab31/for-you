@@ -29,11 +29,11 @@ let currentTrack = null;
 
 function playMusic(index) {
 
-  // Stop previous
-  if (currentTrack !== null) {
-    audioTracks[currentTrack].pause();
-    audioTracks[currentTrack].currentTime = 0;
-  }
+  // Stop ALL tracks first
+  audioTracks.forEach(track => {
+    track.pause();
+    track.currentTime = 0;
+  });
 
   currentTrack = index;
   audioTracks[index].play().catch(() => {});
@@ -180,11 +180,7 @@ document.addEventListener("DOMContentLoaded", () => {
 /* ================= BEGIN BUTTON ================= */
 
 beginBtn.addEventListener("click", () => {
-
-  // 🔓 Unlock only first track (important for iOS)
-  audioTracks[0].play().then(() => {
-    currentTrack = 0;
-  }).catch(() => {});
+playMusic(0);
 
   // 💖 Explosion Hearts
   for (let i = 0; i < 80; i++) {
