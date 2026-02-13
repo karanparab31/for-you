@@ -123,7 +123,7 @@ function startGame() {
     gameArea.appendChild(heart);
 
     let fall = setInterval(() => {
-      heart.style.top = heart.offsetTop + 4 + "px";
+      heart.style.top = heart.offsetTop + 3 + "px";
 
       if (heart.offsetTop > gameArea.offsetHeight) {
         heart.remove();
@@ -132,11 +132,15 @@ function startGame() {
     }, 20);
 
     heart.addEventListener("mouseover", () => {
-      score++;
-      scoreDisplay.textContent = score;
-      heart.remove();
-      clearInterval(fall);
-    });
+      function catchHeart() {
+  score++;
+  scoreDisplay.textContent = score;
+  heart.remove();
+  clearInterval(fall);
+}
+
+heart.addEventListener("mouseover", catchHeart);
+heart.addEventListener("touchstart", catchHeart);
 
   }, 700);
 
@@ -182,7 +186,15 @@ document.addEventListener("DOMContentLoaded", () => {
 /* BEGIN BUTTON */
 beginBtn.addEventListener("click", () => {
 
-  // Play song for slide 1
+  // Unlock audio for mobile Safari
+  bgMusic.src = songs[0];
+  bgMusic.volume = 0;
+  bgMusic.play().then(() => {
+    bgMusic.pause();
+    bgMusic.currentTime = 0;
+  });
+
+  // Now play normally with fade
   playMusic(0);
 
   // Create explosion hearts
